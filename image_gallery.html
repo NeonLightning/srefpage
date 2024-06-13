@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            position: relative; /* Add position relative for numbering */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            cursor: pointer; /* Add cursor pointer for clickable images */
+        }
+        .number {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 3px 6px;
+            border-radius: 3px;
+        }
+        .fullsize {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .fullsize img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="fullsize" id="fullsize">
+        <img id="fullsizeImg" src="" alt="Fullsize Image">
+    </div>
+    <table>
+        
+        <tr>
+            
+            <td>
+                <div class="number">1</div>
+                <p>--sref 85985</p>
+                <img class="thumbnail" src="external/sref_85985.png" alt="sref_85985">
+            </td>
+            
+            <td>
+                <div class="number">2</div>
+                <p>--sref 2221907</p>
+                <img class="thumbnail" src="external/sref_2221907.png" alt="sref_2221907">
+            </td>
+            
+            <td>
+                <div class="number">3</div>
+                <p>--sref 88186446</p>
+                <img class="thumbnail" src="external/sref_88186446.png" alt="sref_88186446">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">4</div>
+                <p>--sref 154214588</p>
+                <img class="thumbnail" src="external/sref_154214588.png" alt="sref_154214588">
+            </td>
+            
+            <td>
+                <div class="number">5</div>
+                <p>--sref 221375566</p>
+                <img class="thumbnail" src="external/sref_221375566.png" alt="sref_221375566">
+            </td>
+            
+            <td>
+                <div class="number">6</div>
+                <p>--sref 228227528</p>
+                <img class="thumbnail" src="external/sref_228227528.png" alt="sref_228227528">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">7</div>
+                <p>--sref 231726502</p>
+                <img class="thumbnail" src="external/sref_231726502.png" alt="sref_231726502">
+            </td>
+            
+            <td>
+                <div class="number">8</div>
+                <p>--sref 393246165</p>
+                <img class="thumbnail" src="external/sref_393246165.png" alt="sref_393246165">
+            </td>
+            
+            <td>
+                <div class="number">9</div>
+                <p>--sref 435433691</p>
+                <img class="thumbnail" src="external/sref_435433691.png" alt="sref_435433691">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">10</div>
+                <p>--sref 487304805</p>
+                <img class="thumbnail" src="external/sref_487304805.png" alt="sref_487304805">
+            </td>
+            
+            <td>
+                <div class="number">11</div>
+                <p>--sref 615477169</p>
+                <img class="thumbnail" src="external/sref_615477169.png" alt="sref_615477169">
+            </td>
+            
+            <td>
+                <div class="number">12</div>
+                <p>--sref 652490348</p>
+                <img class="thumbnail" src="external/sref_652490348.png" alt="sref_652490348">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">13</div>
+                <p>--sref 739402023</p>
+                <img class="thumbnail" src="external/sref_739402023.png" alt="sref_739402023">
+            </td>
+            
+            <td>
+                <div class="number">14</div>
+                <p>--sref 859858977</p>
+                <img class="thumbnail" src="external/sref_859858977.png" alt="sref_859858977">
+            </td>
+            
+            <td>
+                <div class="number">15</div>
+                <p>--sref 926963246</p>
+                <img class="thumbnail" src="external/sref_926963246.png" alt="sref_926963246">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">16</div>
+                <p>--sref 1151607441</p>
+                <img class="thumbnail" src="external/sref_1151607441.png" alt="sref_1151607441">
+            </td>
+            
+            <td>
+                <div class="number">17</div>
+                <p>--sref 1172244609</p>
+                <img class="thumbnail" src="external/sref_1172244609.png" alt="sref_1172244609">
+            </td>
+            
+            <td>
+                <div class="number">18</div>
+                <p>--sref 1217311182</p>
+                <img class="thumbnail" src="external/sref_1217311182.png" alt="sref_1217311182">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">19</div>
+                <p>--sref 1255354896</p>
+                <img class="thumbnail" src="external/sref_1255354896.png" alt="sref_1255354896">
+            </td>
+            
+            <td>
+                <div class="number">20</div>
+                <p>--sref 1407238738</p>
+                <img class="thumbnail" src="external/sref_1407238738.png" alt="sref_1407238738">
+            </td>
+            
+            <td>
+                <div class="number">21</div>
+                <p>--sref 1560289554</p>
+                <img class="thumbnail" src="external/sref_1560289554.png" alt="sref_1560289554">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">22</div>
+                <p>--sref 1562374330</p>
+                <img class="thumbnail" src="external/sref_1562374330.png" alt="sref_1562374330">
+            </td>
+            
+            <td>
+                <div class="number">23</div>
+                <p>--sref 1685377593</p>
+                <img class="thumbnail" src="external/sref_1685377593.png" alt="sref_1685377593">
+            </td>
+            
+            <td>
+                <div class="number">24</div>
+                <p>--sref 1696497510</p>
+                <img class="thumbnail" src="external/sref_1696497510.png" alt="sref_1696497510">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">25</div>
+                <p>--sref 1702428134</p>
+                <img class="thumbnail" src="external/sref_1702428134.png" alt="sref_1702428134">
+            </td>
+            
+            <td>
+                <div class="number">26</div>
+                <p>--sref 1768396421</p>
+                <img class="thumbnail" src="external/sref_1768396421.png" alt="sref_1768396421">
+            </td>
+            
+            <td>
+                <div class="number">27</div>
+                <p>--sref 1804257478</p>
+                <img class="thumbnail" src="external/sref_1804257478.png" alt="sref_1804257478">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">28</div>
+                <p>--sref 1834990806</p>
+                <img class="thumbnail" src="external/sref_1834990806.png" alt="sref_1834990806">
+            </td>
+            
+            <td>
+                <div class="number">29</div>
+                <p>--sref 1932890445</p>
+                <img class="thumbnail" src="external/sref_1932890445.png" alt="sref_1932890445">
+            </td>
+            
+            <td>
+                <div class="number">30</div>
+                <p>--sref 2112463509</p>
+                <img class="thumbnail" src="external/sref_2112463509.png" alt="sref_2112463509">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">31</div>
+                <p>--sref 2213989776</p>
+                <img class="thumbnail" src="external/sref_2213989776.png" alt="sref_2213989776">
+            </td>
+            
+            <td>
+                <div class="number">32</div>
+                <p>--sref 2324824899</p>
+                <img class="thumbnail" src="external/sref_2324824899.png" alt="sref_2324824899">
+            </td>
+            
+            <td>
+                <div class="number">33</div>
+                <p>--sref 2419615293</p>
+                <img class="thumbnail" src="external/sref_2419615293.png" alt="sref_2419615293">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">34</div>
+                <p>--sref 2465275704</p>
+                <img class="thumbnail" src="external/sref_2465275704.png" alt="sref_2465275704">
+            </td>
+            
+            <td>
+                <div class="number">35</div>
+                <p>--sref 2704589787</p>
+                <img class="thumbnail" src="external/sref_2704589787.png" alt="sref_2704589787">
+            </td>
+            
+            <td>
+                <div class="number">36</div>
+                <p>--sref 2780211638</p>
+                <img class="thumbnail" src="external/sref_2780211638.png" alt="sref_2780211638">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">37</div>
+                <p>--sref 2849242181</p>
+                <img class="thumbnail" src="external/sref_2849242181.png" alt="sref_2849242181">
+            </td>
+            
+            <td>
+                <div class="number">38</div>
+                <p>--sref 2917937346</p>
+                <img class="thumbnail" src="external/sref_2917937346.png" alt="sref_2917937346">
+            </td>
+            
+            <td>
+                <div class="number">39</div>
+                <p>--sref 3030355333</p>
+                <img class="thumbnail" src="external/sref_3030355333.png" alt="sref_3030355333">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">40</div>
+                <p>--sref 3230876998</p>
+                <img class="thumbnail" src="external/sref_3230876998.png" alt="sref_3230876998">
+            </td>
+            
+            <td>
+                <div class="number">41</div>
+                <p>--sref 3428539212</p>
+                <img class="thumbnail" src="external/sref_3428539212.png" alt="sref_3428539212">
+            </td>
+            
+            <td>
+                <div class="number">42</div>
+                <p>--sref 3762847149</p>
+                <img class="thumbnail" src="external/sref_3762847149.png" alt="sref_3762847149">
+            </td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>
+                <div class="number">43</div>
+                <p>--sref 3804448059</p>
+                <img class="thumbnail" src="external/sref_3804448059.png" alt="sref_3804448059">
+            </td>
+            
+            <td>
+                <div class="number">44</div>
+                <p>--sref 4063697665</p>
+                <img class="thumbnail" src="external/sref_4063697665.png" alt="sref_4063697665">
+            </td>
+            
+            <td>
+                <div class="number">45</div>
+                <p>--sref 4244190676</p>
+                <img class="thumbnail" src="external/sref_4244190676.png" alt="sref_4244190676">
+            </td>
+            
+        </tr>
+        
+    </table>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let thumbnails = document.querySelectorAll('.thumbnail');
+            let fullsizeImg = document.getElementById('fullsizeImg');
+            let fullsize = document.getElementById('fullsize');
+
+            thumbnails.forEach(function(thumbnail) {
+                thumbnail.addEventListener('click', function() {
+                    fullsizeImg.src = thumbnail.src;
+                    fullsize.style.display = 'flex';
+                });
+            });
+
+            fullsize.addEventListener('click', function() {
+                fullsize.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
