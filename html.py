@@ -55,13 +55,19 @@ html_template = """
 			height: 100vh;
 			object-fit: contain;
 		}
+        .total {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 20px;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <div class="fullsize" id="fullsize">
         <img id="fullsizeImg" src="" alt="Fullsize Image">
     </div>
-    <table>
+    <table id="imageTable">
         {% for row in rows %}
         <tr>
             {% for item in row %}
@@ -73,11 +79,13 @@ html_template = """
         </tr>
         {% endfor %}
     </table>
+    <div class="total" id="total"></div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let thumbnails = document.querySelectorAll('.thumbnail');
             let fullsizeImg = document.getElementById('fullsizeImg');
             let fullsize = document.getElementById('fullsize');
+            let total = document.getElementById('total');
 
             thumbnails.forEach(function(thumbnail) {
                 thumbnail.addEventListener('click', function() {
@@ -91,10 +99,20 @@ html_template = """
             fullsize.addEventListener('click', function() {
                 fullsize.style.display = 'none';
             });
+
+            // Count cells
+            let table = document.getElementById('imageTable');
+            let rowCount = table.rows.length;
+            let cellCount = 0;
+            for (let i = 0; i < rowCount; i++) {
+                cellCount += table.rows[i].cells.length;
+            }
+            total.innerText = 'Total cells: ' + cellCount;
         });
     </script>
 </body>
 </html>
+
 """
 
 def scan_folder(folder):
