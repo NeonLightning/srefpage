@@ -1,3 +1,4 @@
+import time
 import os
 import glob
 from watchdog.observers import Observer
@@ -137,6 +138,7 @@ class ImageFolderHandler(FileSystemEventHandler):
             return
         image_data = scan_folder(folder_path)
         generate_html(image_data)
+        time.sleep(10)
 
 if __name__ == "__main__":
     image_data = scan_folder(folder_path)
@@ -147,6 +149,7 @@ if __name__ == "__main__":
     observer.start()
     try:
         while True:
+            time.sleep(5)
             pass
     except KeyboardInterrupt:
         observer.stop()
