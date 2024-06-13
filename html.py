@@ -17,16 +17,19 @@ html_template = """
         body {
             background: black;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-            position: relative; /* Add position relative for numbering */
-        }
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			table-layout: fixed; /* Ensure fixed layout */
+		}
+
+		th, td {
+			border: 1px solid #ddd;
+			padding: 10px;
+			text-align: center;
+			position: relative; /* Add position relative for numbering */
+			overflow: hidden; /* Hide overflow content */
+		}
         img {
             max-width: 100%;
             height: auto;
