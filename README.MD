@@ -1,0 +1,1 @@
+images are scaled to 25% to save space.

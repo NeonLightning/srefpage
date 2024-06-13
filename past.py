@@ -30,7 +30,7 @@ class MidjountySrefScraper(discord.Client):
     async def process_message(self, message):
         if message.author == self.user:
             return
-        if '--sref' in message.content and '""' in message.content and message.attachments:
+        if '"" --v 6.0 --ar 16:9 --sw 1000 --sref' in message.content and message.attachments:
             self.rate_limit_delay = random.randint(1, 3)
             await asyncio.sleep(self.rate_limit_delay)
             sref_number = self.get_sref_number(message.content)
@@ -48,7 +48,7 @@ class MidjountySrefScraper(discord.Client):
                                             break
                                         f.write(chunk)
                                 image = Image.open(filename)
-                                resized_image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
+                                resized_image = image.resize((int(image.width * 0.25), int(image.height * 0.25)))
                                 resized_image.save(filename)
                                 print(f"Image saved as {filename}")
                                 self.downloaded_images.add(sref_number)
@@ -87,5 +87,5 @@ if __name__ == "__main__":
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     client = MidjountySrefScraper(save_path=save_path)
-    token = 'CLIENT_TOKEN_HERE'
+    token = 'CLIENT_ID_HERE'
     asyncio.run(client.run_bot(token))

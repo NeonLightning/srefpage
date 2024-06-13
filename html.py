@@ -14,6 +14,9 @@ html_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Gallery</title>
     <style>
+        p {
+            color: rgba(255, 255, 255, 0.8);
+        }
         body {
             background: black;
         }
@@ -35,14 +38,6 @@ html_template = """
             height: auto;
             cursor: pointer; /* Add cursor pointer for clickable images */
         }
-        .number {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 3px 6px;
-            border-radius: 3px;
-        }
         .fullsize {
             position: fixed;
             top: 0;
@@ -50,15 +45,16 @@ html_template = """
             width: 100vw;
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 9999;
         }
-        .fullsize img {
-            max-width: 90vw;
-            max-height: 90vh;
-        }
+		.fullsize img {
+			width: 100vw;
+			height: 100vh;
+			object-fit: contain;
+		}
     </style>
 </head>
 <body>
@@ -70,7 +66,6 @@ html_template = """
         <tr>
             {% for item in row %}
             <td>
-                <div class="number">{{ item.unique_number }}</div>
                 <p>--sref {{ item.number }}</p>
                 <img class="thumbnail" src="external/sref_{{ item.number }}.png" alt="sref_{{ item.number }}">
             </td>
@@ -88,6 +83,8 @@ html_template = """
                 thumbnail.addEventListener('click', function() {
                     fullsizeImg.src = thumbnail.src;
                     fullsize.style.display = 'flex';
+                    fullsizeImg.style.maxWidth = '100vw'; // Set max-width to 100vw
+                    fullsizeImg.style.maxHeight = '100vh'; // Set max-height to 100vh
                 });
             });
 

@@ -1,38 +1,60 @@
-import discord, os, requests, re, asyncio, argparse
+import discord
+import os
+import re
+import asyncio
+import argparse
 from PIL import Image
+import random
+import aiohttp
 
 class MidjountySrefScraper(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.target_channel_id = THREAD_ID_HERE
-        self.rate_limit_delay = 1
         self.save_path = kwargs.get('save_path', './images')
+        self.downloaded_images = set()
+        self.scan_downloaded_images()
+
+    def scan_downloaded_images(self):
+        for filename in os.listdir(self.save_path):
+            if filename.startswith("sref_") and filename.endswith(".png"):
+                sref_number = filename.split("_")[1].split(".")[0]
+                self.downloaded_images.add(sref_number)
 
     async def on_ready(self):
         print(f'We have logged in as {self.user}')
+        channel = self.get_channel(self.target_channel_id)
+        async for message in channel.history(limit=None):
+            await self.process_message(message)
 
-    async def on_message(self, message):
+    async def process_message(self, message):
         if message.author == self.user:
             return
-        if message.channel.id != self.target_channel_id:
-            return
         if '--sref' in message.content and '""' in message.content and message.attachments:
+            self.rate_limit_delay = random.randint(1, 3)
             await asyncio.sleep(self.rate_limit_delay)
             sref_number = self.get_sref_number(message.content)
-            if sref_number:
+            if sref_number and not self.is_image_downloaded(sref_number):
                 filename = os.path.join(self.save_path, f"sref_{sref_number}.png")
-                for attachment in message.attachments:
-                    r = requests.get(attachment.url, allow_redirects=True)
-                    with open(filename, 'wb') as f:
-                        f.write(r.content)
-                    image = Image.open(filename)
-                    resized_image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
-                    resized_filename = os.path.join(self.save_path, f"sref_{sref_number}_resized.png")
-                    resized_image.save(resized_filename)
-                    os.remove(filename)
-                    os.rename(resized_filename, filename)
-                    print(f"Image saved as {filename}")
-            self.rate_limit_delay *= 2
+                print(f'saving download of {filename}')
+                async with aiohttp.ClientSession() as session:
+                    for attachment in message.attachments:
+                        async with session.get(attachment.url) as resp:
+                            if resp.status == 200:
+                                with open(filename, 'wb') as f:
+                                    while True:
+                                        chunk = await resp.content.read(1024)
+                                        if not chunk:
+                                            break
+                                        f.write(chunk)
+                                image = Image.open(filename)
+                                resized_image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
+                                resized_image.save(filename)
+                                print(f"Image saved as {filename}")
+                                self.downloaded_images.add(sref_number)
+            elif self.is_image_downloaded(sref_number):
+                filename = os.path.join(self.save_path, f"sref_{sref_number}.png")
+                print(f'skipping download of {filename}')
 
     def get_sref_number(self, message_content):
         sref_index = message_content.find('--sref')
@@ -42,6 +64,9 @@ class MidjountySrefScraper(discord.Client):
                 return sref_number.group()
         return None
 
+    def is_image_downloaded(self, sref_number):
+        return sref_number in self.downloaded_images
+
     async def on_disconnect(self):
         print("Disconnected from Discord. Attempting to reconnect...")
 
@@ -49,11 +74,9 @@ class MidjountySrefScraper(discord.Client):
         while True:
             try:
                 await self.start(token)
-            except ConnectionResetError:
-                print("Connection reset error occurred. Reconnecting...")
-                await asyncio.sleep(5)
-            except discord.errors.HTTPException as e:
-                print(f"HTTP exception occurred: {e}. Reconnecting...")
+            except (ConnectionResetError, discord.errors.HTTPException, aiohttp.ClientError) as e:
+                print(f"An exception occurred: {e}. Reconnecting...")
+                await self.close()
                 await asyncio.sleep(5)
 
 if __name__ == "__main__":
@@ -64,5 +87,5 @@ if __name__ == "__main__":
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     client = MidjountySrefScraper(save_path=save_path)
-    token = 'USER_ID_HERE'
+    token = 'CLIENT_ID_HERE'
     asyncio.run(client.run_bot(token))
