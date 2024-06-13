@@ -62,6 +62,13 @@ html_template = """
             font-size: 20px;
             color: white;
         }
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -94,6 +101,7 @@ html_template = """
                     fullsize.style.display = 'flex';
                     fullsizeImg.style.maxWidth = '100vw'; // Set max-width to 100vw
                     fullsizeImg.style.maxHeight = '100vh'; // Set max-height to 100vh
+                    fullsizeImg.classList.add('fade-in');
                 });
             });
 
