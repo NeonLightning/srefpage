@@ -18,6 +18,7 @@ html_template = """
     <style>
         p {
             color: rgba(255, 255, 255, 0.8);
+            cursor: pointer; /* Add cursor pointer for clickable paragraphs */
         }
         body {
             background: black;
@@ -81,7 +82,7 @@ html_template = """
         <tr>
             {% for item in row %}
             <td>
-                <p>--sref {{ item.number }}</p>
+                <p class="copy-text">--sref {{ item.number }}</p>
                 <img class="thumbnail" src="external/sref_{{ item.number }}.png" alt="sref_{{ item.number }}">
             </td>
             {% endfor %}
@@ -95,6 +96,7 @@ html_template = """
             let fullsizeImg = document.getElementById('fullsizeImg');
             let fullsize = document.getElementById('fullsize');
             let total = document.getElementById('total');
+            let copyTexts = document.querySelectorAll('.copy-text');
 
             thumbnails.forEach(function(thumbnail) {
                 thumbnail.addEventListener('click', function() {
@@ -118,11 +120,22 @@ html_template = """
                 cellCount += table.rows[i].cells.length;
             }
             total.innerText = 'Total cells: ' + cellCount;
+
+            // Add event listener for copying text
+            copyTexts.forEach(function(copyText) {
+                copyText.addEventListener('click', function() {
+                    let textToCopy = copyText.innerText;
+                    navigator.clipboard.writeText(textToCopy).then(function() {
+                        alert('Copied to clipboard: ' + textToCopy);
+                    }).catch(function(error) {
+                        console.error('Failed to copy text: ', error);
+                    });
+                });
+            });
         });
     </script>
 </body>
 </html>
-
 """
 
 def scan_folder(folder):

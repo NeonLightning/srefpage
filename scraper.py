@@ -28,11 +28,11 @@ class MidjountySrefScraper(discord.Client):
             await self.process_message(message)
 
     async def process_message(self, message):
+        self.rate_limit_delay = random.randint(1, 3)
+        await asyncio.sleep(self.rate_limit_delay)
         if message.author == self.user:
             return
         if '--sref' in message.content and '""' in message.content and message.attachments:
-            self.rate_limit_delay = random.randint(1, 3)
-            await asyncio.sleep(self.rate_limit_delay)
             sref_number = self.get_sref_number(message.content)
             if sref_number and not self.is_image_downloaded(sref_number):
                 filename = os.path.join(self.save_path, f"sref_{sref_number}.png")
