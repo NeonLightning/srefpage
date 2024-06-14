@@ -12443,13 +12443,12 @@
         }
         document.addEventListener('DOMContentLoaded', function() {
             const observer = lozad('.lozad', {
-                rootMargin: '600px 0px', // Adjust the rootMargin as needed
-                loaded: function(el) {
-                    // This is called when the image is loaded
-                    el.classList.add('loaded');
-                }
+                rootMargin: '200px 0px',
+                threshold: 0.1,
+                enableAutoReload: true
             });
             observer.observe();
+
             let thumbnails = document.querySelectorAll('.thumbnail');
             let fullsizeImg = document.getElementById('fullsizeImg');
             let fullsize = document.getElementById('fullsize');
