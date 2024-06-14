@@ -6,7 +6,7 @@ from watchdog.events import FileSystemEventHandler
 from jinja2 import Template
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-folder_path = os.path.join(script_dir, 'external')
+folder_path = os.path.join(script_dir, 'images')
 html_template = """
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +16,14 @@ html_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Gallery</title>
     <style>
+        button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
         p {
-            cursor: pointer; /* Add cursor pointer for clickable paragraphs */
+            cursor: pointer;
         }
         body {
             color: rgba(255, 255, 255, 0.8);
@@ -26,20 +32,20 @@ html_template = """
 		table {
 			width: 100%;
 			border-collapse: collapse;
-			table-layout: fixed; /* Ensure fixed layout */
+			table-layout: fixed;
 		}
 
 		th, td {
 			border: 1px solid #ddd;
 			padding: 10px;
 			text-align: center;
-			position: relative; /* Add position relative for numbering */
-			overflow: hidden; /* Hide overflow content */
+			position: relative;
+			overflow: hidden;
 		}
         img {
             max-width: 100%;
             height: auto;
-            cursor: pointer; /* Add cursor pointer for clickable images */
+            cursor: pointer;
         }
         .fullsize {
             position: fixed;
@@ -77,6 +83,7 @@ html_template = """
     <div class="fullsize" id="fullsize">
         <img id="fullsizeImg" src="" alt="Fullsize Image">
     </div>
+    <button onclick="scrollToRandomCell()">Go to Random Cell</button>
 	<h1>"" --v 6.0 --ar 16:9 --sw 1000 --sref</h1>
     <table id="imageTable">
         {% for row in rows %}
@@ -84,15 +91,27 @@ html_template = """
             {% for item in row %}
             <td>
                 <p class="copy-text">--sref {{ item.number }}</p>
-                <img class="thumbnail" src="external/sref_{{ item.number }}.png" alt="sref_{{ item.number }}">
+                <img class="thumbnail lozad" data-src="images/sref_{{ item.number }}.png" alt="sref_{{ item.number }}">
             </td>
             {% endfor %}
         </tr>
         {% endfor %}
     </table>
     <div class="total" id="total"></div>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
+        function scrollToRandomCell() {
+            let table = document.getElementById('imageTable');
+            let rows = table.rows;
+            let randomRowIndex = Math.floor(Math.random() * rows.length);
+            let randomRow = rows[randomRowIndex];
+            let randomCellIndex = Math.floor(Math.random() * randomRow.cells.length);
+            let randomCell = randomRow.cells[randomCellIndex];
+            randomCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
         document.addEventListener('DOMContentLoaded', function() {
+            const observer = lozad();
+            observer.observe();
             let thumbnails = document.querySelectorAll('.thumbnail');
             let fullsizeImg = document.getElementById('fullsizeImg');
             let fullsize = document.getElementById('fullsize');
