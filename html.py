@@ -17,10 +17,10 @@ html_template = """
     <title>Image Gallery</title>
     <style>
         p {
-            color: rgba(255, 255, 255, 0.8);
             cursor: pointer; /* Add cursor pointer for clickable paragraphs */
         }
         body {
+            color: rgba(255, 255, 255, 0.8);
             background: black;
         }
 		table {
@@ -77,6 +77,7 @@ html_template = """
     <div class="fullsize" id="fullsize">
         <img id="fullsizeImg" src="" alt="Fullsize Image">
     </div>
+	<h1>"" --v 6.0 --ar 16:9 --sw 1000 --sref</h1>
     <table id="imageTable">
         {% for row in rows %}
         <tr>
