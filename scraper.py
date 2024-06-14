@@ -24,7 +24,7 @@ class MidjountySrefScraper(discord.Client):
     async def on_ready(self):
         print(f'We have logged in as {self.user}')
         channel = self.get_channel(self.target_channel_id)
-        async for message in channel.history(limit=None):
+        async for message in channel.history(limit=10):
             await self.process_message(message)
 
     async def process_message(self, message):
