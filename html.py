@@ -20,7 +20,8 @@ html_template = """
             position: fixed;
             bottom: 20px;
             left: 20px;
-            z-index: 9999;
+            z-index: 9998;
+            font-size: 20px;
         }
         p {
             cursor: pointer;
@@ -29,19 +30,19 @@ html_template = """
             color: rgba(255, 255, 255, 0.8);
             background: black;
         }
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			table-layout: fixed;
-		}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
 
-		th, td {
-			border: 1px solid #ddd;
-			padding: 10px;
-			text-align: center;
-			position: relative;
-			overflow: hidden;
-		}
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
         img {
             max-width: 100%;
             height: auto;
@@ -55,15 +56,25 @@ html_template = """
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.8);
             display: none;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-top: 5px;
+            box-sizing: border-box;
             z-index: 9999;
         }
-		.fullsize img {
-			width: 100vw;
-			height: 100vh;
-			object-fit: contain;
-		}
+        .fullsize img {
+            width: 100vw;
+            height: calc(100vh - 70px);
+            object-fit: contain;
+            padding-bottom: 20px;
+        }
+        .fullsize .sref-number {
+            margin-bottom: 5px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
         .total {
             text-align: center;
             margin-top: 10px;
@@ -81,10 +92,11 @@ html_template = """
 </head>
 <body>
     <div class="fullsize" id="fullsize">
+        <p id="fullsizeSref" class="sref-number"></p>
         <img id="fullsizeImg" src="" alt="Fullsize Image">
     </div>
     <button onclick="scrollToRandomCell()">Go to Random Cell</button>
-	<h1>"" --v 6.0 --ar 16:9 --sw 1000 --sref</h1>
+    <h1>"" --v 6.0 --ar 16:9 --sw 1000 --sref</h1>
     <table id="imageTable">
         {% for row in rows %}
         <tr>
@@ -109,30 +121,85 @@ html_template = """
             let randomCell = randomRow.cells[randomCellIndex];
             randomCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+
         document.addEventListener('DOMContentLoaded', function() {
-            const observer = lozad();
+            const observer = lozad('.lozad', {
+                rootMargin: '200px 0px',
+            });
             observer.observe();
+
             let thumbnails = document.querySelectorAll('.thumbnail');
             let fullsizeImg = document.getElementById('fullsizeImg');
+            let fullsizeSref = document.getElementById('fullsizeSref');
             let fullsize = document.getElementById('fullsize');
             let total = document.getElementById('total');
             let copyTexts = document.querySelectorAll('.copy-text');
+            let currentImage = null;
+            let images = Array.from(thumbnails);
 
             thumbnails.forEach(function(thumbnail) {
                 thumbnail.addEventListener('click', function() {
+                    currentImage = thumbnail;
                     fullsizeImg.src = thumbnail.src;
+                    fullsizeSref.textContent = thumbnail.previousElementSibling.textContent;
                     fullsize.style.display = 'flex';
-                    fullsizeImg.style.maxWidth = '100vw'; // Set max-width to 100vw
-                    fullsizeImg.style.maxHeight = '100vh'; // Set max-height to 100vh
+                    fullsizeImg.style.maxWidth = '100vw';
+                    fullsizeImg.style.maxHeight = '100vh';
                     fullsizeImg.classList.add('fade-in');
                 });
             });
 
-            fullsize.addEventListener('click', function() {
-                fullsize.style.display = 'none';
+            fullsize.addEventListener('click', function(event) {
+                if (event.target !== fullsizeSref) {
+                    fullsize.style.display = 'none';
+                    currentImage = null;
+                }
             });
 
-            // Count cells
+            document.addEventListener('keydown', function(event) {
+                if (currentImage && event.key === 'Escape') {
+                    fullsize.style.display = 'none';
+                    currentImage = null;
+                } else if (currentImage && event.key === 'ArrowLeft') {
+                    navigateImage('left');
+                } else if (currentImage && event.key === 'ArrowRight') {
+                    navigateImage('right');
+                } else if (event.key === ' ') {
+                    event.preventDefault(); // Prevent the default spacebar behavior
+                    scrollToRandomCell();
+                }
+            });
+
+            function navigateImage(direction) {
+                var currentIndex = images.indexOf(currentImage);
+                var newIndex;
+                if (!currentImage) {
+                    if (direction === 'left') {
+                        newIndex = images.length - 1;
+                    } else if (direction === 'right') {
+                        newIndex = 0;
+                    }
+                } else {
+                    if (direction === 'left') {
+                        newIndex = (currentIndex - 1 + images.length) % images.length;
+                    } else if (direction === 'right') {
+                        newIndex = (currentIndex + 1) % images.length;
+                    }
+                }
+                var newImage = images[newIndex];
+                toggleFullsize({ target: newImage });
+            }
+
+            function toggleFullsize(event) {
+                currentImage = event.target;
+                fullsizeImg.src = currentImage.src;
+                fullsizeSref.textContent = currentImage.previousElementSibling.textContent;
+                fullsize.style.display = 'flex';
+                fullsizeImg.style.maxWidth = '100vw';
+                fullsizeImg.style.maxHeight = '100vh';
+                fullsizeImg.classList.add('fade-in');
+            }
+
             let table = document.getElementById('imageTable');
             let rowCount = table.rows.length;
             let cellCount = 0;
@@ -141,7 +208,6 @@ html_template = """
             }
             total.innerText = 'Total cells: ' + cellCount;
 
-            // Add event listener for copying text
             copyTexts.forEach(function(copyText) {
                 copyText.addEventListener('click', function() {
                     let textToCopy = copyText.innerText;
@@ -150,6 +216,14 @@ html_template = """
                     }).catch(function(error) {
                         console.error('Failed to copy text: ', error);
                     });
+                });
+            });
+            fullsizeSref.addEventListener('click', function() {
+                let textToCopy = fullsizeSref.textContent;
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    alert('Copied to clipboard: ' + textToCopy);
+                }).catch(function(error) {
+                    console.error('Failed to copy text: ', error);
                 });
             });
         });
@@ -168,7 +242,7 @@ def scan_folder(folder):
     return image_data
 
 def generate_html(image_data):
-    rows = [image_data[i:i+3] for i in range(0, len(image_data), 3)]
+    rows = [image_data[i:i+4] for i in range(0, len(image_data), 4)]
     template = Template(html_template)
     html_content = template.render(rows=rows)
     with open('index.html', 'w') as f:

@@ -21,19 +21,19 @@
             color: rgba(255, 255, 255, 0.8);
             background: black;
         }
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			table-layout: fixed;
-		}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
 
-		th, td {
-			border: 1px solid #ddd;
-			padding: 10px;
-			text-align: center;
-			position: relative;
-			overflow: hidden;
-		}
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
         img {
             max-width: 100%;
             height: auto;
@@ -47,15 +47,25 @@
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.8);
             display: none;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-top: 5px;
+            box-sizing: border-box;
             z-index: 9999;
         }
-		.fullsize img {
-			width: 100vw;
-			height: 100vh;
-			object-fit: contain;
-		}
+        .fullsize img {
+            width: 100vw;
+            height: calc(100vh - 70px);
+            object-fit: contain;
+            padding-bottom: 20px;
+        }
+        .fullsize .sref-number {
+            margin-bottom: 5px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
         .total {
             text-align: center;
             margin-top: 10px;
@@ -73,10 +83,11 @@
 </head>
 <body>
     <div class="fullsize" id="fullsize">
+        <p id="fullsizeSref" class="sref-number"></p>
         <img id="fullsizeImg" src="" alt="Fullsize Image">
     </div>
     <button onclick="scrollToRandomCell()">Go to Random Cell</button>
-	<h1>"" --v 6.0 --ar 16:9 --sw 1000 --sref</h1>
+    <h1>"" --v 6.0 --ar 16:9 --sw 1000 --sref</h1>
     <table id="imageTable">
         
         <tr>
@@ -12197,6 +12208,7 @@
             let randomCell = randomRow.cells[randomCellIndex];
             randomCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+
         document.addEventListener('DOMContentLoaded', function() {
             const observer = lozad('.lozad', {
                 rootMargin: '200px 0px',
@@ -12205,13 +12217,18 @@
 
             let thumbnails = document.querySelectorAll('.thumbnail');
             let fullsizeImg = document.getElementById('fullsizeImg');
+            let fullsizeSref = document.getElementById('fullsizeSref');
             let fullsize = document.getElementById('fullsize');
             let total = document.getElementById('total');
             let copyTexts = document.querySelectorAll('.copy-text');
+            let currentImage = null;
+            let images = Array.from(thumbnails);
 
             thumbnails.forEach(function(thumbnail) {
                 thumbnail.addEventListener('click', function() {
+                    currentImage = thumbnail;
                     fullsizeImg.src = thumbnail.src;
+                    fullsizeSref.textContent = thumbnail.previousElementSibling.textContent;
                     fullsize.style.display = 'flex';
                     fullsizeImg.style.maxWidth = '100vw';
                     fullsizeImg.style.maxHeight = '100vh';
@@ -12219,9 +12236,56 @@
                 });
             });
 
-            fullsize.addEventListener('click', function() {
-                fullsize.style.display = 'none';
+            fullsize.addEventListener('click', function(event) {
+                if (event.target !== fullsizeSref) {
+                    fullsize.style.display = 'none';
+                    currentImage = null;
+                }
             });
+
+            document.addEventListener('keydown', function(event) {
+                if (currentImage && event.key === 'Escape') {
+                    fullsize.style.display = 'none';
+                    currentImage = null;
+                } else if (currentImage && event.key === 'ArrowLeft') {
+                    navigateImage('left');
+                } else if (currentImage && event.key === 'ArrowRight') {
+                    navigateImage('right');
+                } else if (event.key === ' ') {
+                    event.preventDefault(); // Prevent the default spacebar behavior
+                    scrollToRandomCell();
+                }
+            });
+
+            function navigateImage(direction) {
+                var currentIndex = images.indexOf(currentImage);
+                var newIndex;
+                if (!currentImage) {
+                    if (direction === 'left') {
+                        newIndex = images.length - 1;
+                    } else if (direction === 'right') {
+                        newIndex = 0;
+                    }
+                } else {
+                    if (direction === 'left') {
+                        newIndex = (currentIndex - 1 + images.length) % images.length;
+                    } else if (direction === 'right') {
+                        newIndex = (currentIndex + 1) % images.length;
+                    }
+                }
+                var newImage = images[newIndex];
+                toggleFullsize({ target: newImage });
+            }
+
+            function toggleFullsize(event) {
+                currentImage = event.target;
+                fullsizeImg.src = currentImage.src;
+                fullsizeSref.textContent = currentImage.previousElementSibling.textContent;
+                fullsize.style.display = 'flex';
+                fullsizeImg.style.maxWidth = '100vw';
+                fullsizeImg.style.maxHeight = '100vh';
+                fullsizeImg.classList.add('fade-in');
+            }
 
             let table = document.getElementById('imageTable');
             let rowCount = table.rows.length;
@@ -12239,6 +12303,14 @@
                     }).catch(function(error) {
                         console.error('Failed to copy text: ', error);
                     });
+                });
+            });
+            fullsizeSref.addEventListener('click', function() {
+                let textToCopy = fullsizeSref.textContent;
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    alert('Copied to clipboard: ' + textToCopy);
+                }).catch(function(error) {
+                    console.error('Failed to copy text: ', error);
                 });
             });
         });
