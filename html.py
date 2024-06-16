@@ -20,7 +20,7 @@ html_template = """
             position: fixed;
             bottom: 20px;
             left: 20px;
-            z-index: 9998;
+            z-index: 9999;
             font-size: 20px;
         }
         p {
@@ -61,7 +61,7 @@ html_template = """
             align-items: center;
             padding-top: 5px;
             box-sizing: border-box;
-            z-index: 9999;
+            z-index: 9998;
         }
         .fullsize img {
             width: 100vw;
@@ -113,13 +113,26 @@ html_template = """
     <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
         function scrollToRandomCell() {
-            let table = document.getElementById('imageTable');
-            let rows = table.rows;
-            let randomRowIndex = Math.floor(Math.random() * rows.length);
-            let randomRow = rows[randomRowIndex];
-            let randomCellIndex = Math.floor(Math.random() * randomRow.cells.length);
-            let randomCell = randomRow.cells[randomCellIndex];
-            randomCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            let fullsize = document.getElementById('fullsize');
+            let fullsizeImg = document.getElementById('fullsizeImg');
+            let fullsizeSref = document.getElementById('fullsizeSref');
+
+            if (fullsize.style.display === 'flex') {
+                let thumbnails = document.querySelectorAll('.thumbnail');
+                let randomIndex = Math.floor(Math.random() * thumbnails.length);
+                let randomThumbnail = thumbnails[randomIndex];
+                fullsizeImg.src = randomThumbnail.getAttribute('data-src');
+                fullsizeSref.textContent = randomThumbnail.previousElementSibling.textContent;
+                fullsizeImg.classList.add('fade-in');
+            } else {
+                let table = document.getElementById('imageTable');
+                let rows = table.rows;
+                let randomRowIndex = Math.floor(Math.random() * rows.length);
+                let randomRow = rows[randomRowIndex];
+                let randomCellIndex = Math.floor(Math.random() * randomRow.cells.length);
+                let randomCell = randomRow.cells[randomCellIndex];
+                randomCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
