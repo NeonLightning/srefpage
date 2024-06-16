@@ -99,7 +99,7 @@ if __name__ == "__main__":
         print(f"Log file path: {os.path.abspath('scraper.log')}")
         logging.debug(f"Log file path: {os.path.abspath('scraper.log')}")
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        logging.basicConfig(filename='/home/neonbot/midjourney/scraper.log', level=logging.DEBUG)
+        logging.basicConfig(filename='scraper.log', level=logging.DEBUG)
         logger = logging.getLogger()
         handler = logger.handlers[0]
         handler.setFormatter(formatter)
