@@ -8,6 +8,17 @@ class MidjountySrefScraper(discord.Client):
         self.save_path = kwargs.get('save_path', './images')
         self.downloaded_images = set()
         self.scan_downloaded_images()
+    try:
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        logging.basicConfig(filename='/home/neonbot/midjourney/scraper.log', level=logging.INFO)
+        logger = logging.getLogger()
+        handler = logger.handlers[0]
+        handler.setFormatter(formatter)
+        print(f"Log file path: {os.path.abspath('scraper.log')}")
+        logging.debug(f"Log file path: {os.path.abspath('scraper.log')}")
+    except Exception as e:
+        print(f"Error setting up logging: {e}")
+        logging.error(f"Error setting up logging: {e}")
 
     def scan_downloaded_images(self):
         files = 0
@@ -54,6 +65,7 @@ class MidjountySrefScraper(discord.Client):
                                 resized_image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
                                 resized_image.save(filename)
                                 logging.info(f"Image saved as {filename}")
+                                print(f"Image saved as {filename}")
                                 self.downloaded_images.add(sref_number)
             elif self.is_image_downloaded(sref_number):
                 filename = os.path.join(self.save_path, f"sref_{sref_number}.png")
@@ -95,16 +107,5 @@ if __name__ == "__main__":
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     client = MidjountySrefScraper(save_path=save_path)
-    try:
-        print(f"Log file path: {os.path.abspath('scraper.log')}")
-        logging.debug(f"Log file path: {os.path.abspath('scraper.log')}")
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        logging.basicConfig(filename='scraper.log', level=logging.DEBUG)
-        logger = logging.getLogger()
-        handler = logger.handlers[0]
-        handler.setFormatter(formatter)
-    except Exception as e:
-        print(f"Error setting up logging: {e}")
-        logging.error(f"Error setting up logging: {e}")
-    token = 'CLIENT_ID_HERE'
+    token = 'USER_ID_HERE'
     asyncio.run(client.run_bot(token))
