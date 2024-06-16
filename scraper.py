@@ -10,13 +10,12 @@ import aiohttp
 class MidjountySrefScraper(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.target_channel_id = THREAD_OR_CHANNEL_ID
+        self.target_channel_id = CHANNEL_ID_HERE
         self.save_path = kwargs.get('save_path', './images')
         self.downloaded_images = set()
         self.scan_downloaded_images()
 
     def scan_downloaded_images(self):
-        
         files = 0
         for filename in os.listdir(self.save_path):
             files += 1
@@ -30,7 +29,7 @@ class MidjountySrefScraper(discord.Client):
         channel = self.get_channel(self.target_channel_id)
         async for message in channel.history(limit=None):
             await self.process_message(message)
-            
+
     async def on_message(self, message):
         await self.process_message(message)
 
@@ -96,5 +95,5 @@ if __name__ == "__main__":
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     client = MidjountySrefScraper(save_path=save_path)
-    token = 'CLIENT_TOKEN'
+    token = 'CLIENT_ID_HERE'
     asyncio.run(client.run_bot(token))
