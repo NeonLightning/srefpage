@@ -1,0 +1,60 @@
+2024-06-16 19:28:18,625 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported.
+2024-06-16 19:28:18,668 - root - INFO - downloaded 2382
+2024-06-16 19:28:18,671 - discord.client - INFO - Logging in using static token.
+2024-06-16 19:28:19,444 - discord.http - INFO - Found user agent Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36, build number 301920.
+2024-06-16 19:28:22,590 - discord.gateway - INFO - Connected to Gateway (Session ID: 6731170853f0f05cdd57c71420010117).
+2024-06-16 19:28:42,569 - discord.state - WARNING - Timed out waiting for member list subscriptions for guild_id 492495217988206592.
+2024-06-16 19:28:42,575 - root - INFO - We have logged in as neonlightning#0
+2024-06-16 19:29:02,328 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_4206588822.png
+2024-06-16 19:29:14,955 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_4206588822.png
+2024-06-16 19:29:16,989 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_3666545954.png
+2024-06-16 19:29:29,966 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_3666545954.png
+2024-06-16 19:29:31,978 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_2526738268.png
+2024-06-16 19:29:54,412 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_2526738268.png
+2024-06-16 19:29:55,109 - discord.gateway - WARNING - Can't keep up, websocket is 53.9s behind.
+2024-06-16 19:29:56,462 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_243060842.png
+2024-06-16 19:30:18,887 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_243060842.png
+2024-06-16 19:30:20,948 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_3067786076.png
+2024-06-16 19:30:35,885 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_3067786076.png
+2024-06-16 19:30:37,921 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_2314921795.png
+2024-06-16 19:30:46,656 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_2314921795.png
+2024-06-16 19:30:47,679 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_872169068.png
+2024-06-16 19:30:58,835 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_872169068.png
+2024-06-16 19:31:00,841 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_3944600734.png
+2024-06-16 19:31:13,525 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_3944600734.png
+2024-06-16 19:31:16,530 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_847575134.png
+2024-06-16 19:31:29,851 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_847575134.png
+2024-06-16 19:31:30,868 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_3722461298.png
+2024-06-16 19:31:54,249 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_3722461298.png
+2024-06-16 19:31:57,256 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_1674250590.png
+2024-06-16 19:32:21,200 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_1674250590.png
+2024-06-16 19:32:21,466 - discord.client - ERROR - Attempting a reconnect in 1.63s
+Traceback (most recent call last):
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/discord/client.py", line 738, in connect
+    await self.ws.poll_event()
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/discord/gateway.py", line 648, in poll_event
+    await self.received_message(msg.data)
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/discord/gateway.py", line 555, in received_message
+    await self.send_as_json(beat)
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/discord/gateway.py", line 684, in send_as_json
+    await self.send(utils._to_json(data))
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/discord/gateway.py", line 680, in send
+    await self.socket.send_str(data)
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/aiohttp/client_ws.py", line 165, in send_str
+    await self._writer.send(data, binary=False, compress=compress)
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/aiohttp/http_websocket.py", line 729, in send
+    await self._send_frame(message, WSMsgType.TEXT, compress)
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/aiohttp/http_websocket.py", line 675, in _send_frame
+    self._write(header + mask + message)
+  File "/home/neonbot/midjourney/discord_self_bot_env/lib/python3.11/site-packages/aiohttp/http_websocket.py", line 702, in _write
+    raise ConnectionResetError("Cannot write to closing transport")
+ConnectionResetError: Cannot write to closing transport
+2024-06-16 19:32:24,094 - discord.gateway - INFO - Gateway has successfully RESUMED session 6731170853f0f05cdd57c71420010117.
+2024-06-16 19:45:48,173 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_3478470403.png
+2024-06-16 19:46:12,416 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_3478470403.png
+2024-06-16 19:52:51,300 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_2426603952.png
+2024-06-16 19:53:07,373 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_2426603952.png
+2024-06-16 19:53:13,392 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_251250978.png
+2024-06-16 19:53:31,247 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_251250978.png
+2024-06-16 19:55:58,359 - root - INFO - saving download of /home/neonbot/midjourney/images/sref_3606795171.png
+2024-06-16 19:56:08,732 - root - INFO - Image saved as /home/neonbot/midjourney/images/sref_3606795171.png

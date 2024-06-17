@@ -267,7 +267,14 @@ class ImageFolderHandler(FileSystemEventHandler):
             return
         image_data = scan_folder(folder_path)
         generate_html(image_data)
-        time.sleep(10)
+        time.sleep(5)
+
+    def on_deleted(self, event):
+        if event.is_directory:
+            return
+        image_data = scan_folder(folder_path)
+        generate_html(image_data)
+        time.sleep(5)
 
 if __name__ == "__main__":
     image_data = scan_folder(folder_path)

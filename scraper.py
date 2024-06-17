@@ -62,11 +62,21 @@ class MidjountySrefScraper(discord.Client):
                                             break
                                         f.write(chunk)
                                 image = Image.open(filename)
-                                resized_image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
-                                resized_image.save(filename)
-                                logging.info(f"Image saved as {filename}")
-                                print(f"Image saved as {filename}")
-                                self.downloaded_images.add(sref_number)
+                                try:
+                                    resized_image = image.resize((int(image.width * 0.5), int(image.height * 0.5)))
+                                    resized_image.save(filename, optimize=True, progressive=True)
+                                    logging.info(f"Image saved as {filename}")
+                                    print(f"Image saved as {filename}")
+                                    self.downloaded_images.add(sref_number)
+                                except Exception as e:
+                                    print(f"Error converting {filename}: {e}")
+                                    logging.error(f"Error converting {filename}: {e}")
+                                    try:
+                                        os.remove(filename)
+                                    except Exception as e:
+                                        print(f"Error removing {filename}: {e}")
+                                        logging.error(f"Error removing {filename}: {e}")
+
             elif self.is_image_downloaded(sref_number):
                 filename = os.path.join(self.save_path, f"sref_{sref_number}.png")
                 logging.debug(f'skipping download of {filename}')
@@ -107,5 +117,5 @@ if __name__ == "__main__":
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     client = MidjountySrefScraper(save_path=save_path)
-    token = 'USER_ID_HERE'
+    token = 'CLIENT_ID_HERE'
     asyncio.run(client.run_bot(token))
